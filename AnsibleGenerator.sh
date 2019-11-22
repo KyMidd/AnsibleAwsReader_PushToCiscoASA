@@ -34,7 +34,7 @@ rm -f AWS2ASAPlaybook > /dev/null 2>&1
 # Write static
 cat <<EOL >> AWS2ASAPlaybook
 ---
-- hosts: pe1_fw
+- hosts: fw1
   gather_facts: yes
   connection: local
 

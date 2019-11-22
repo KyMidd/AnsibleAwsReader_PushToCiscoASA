@@ -1,5 +1,5 @@
 ---
-- hosts: pe1_fw
+- hosts: fw1
   gather_facts: yes
   connection: local
 
