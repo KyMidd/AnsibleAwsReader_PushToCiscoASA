@@ -55,9 +55,9 @@ cat <<EOL >> AWS2ASAPlaybook
     asa_config:
       provider: "{{ provider }}"
       commands:
-        - no access-list PE1_CORE_IN-ACL permit tcp 10.45.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupB eq 443
-        - no access-list PE1_CORE_IN-ACL permit tcp 10.48.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupB eq 443
-        - no access-list PE1_CORE_IN-ACL remark Ansible AWS global East-1 groupB
+        - no access-list inside_acl permit tcp 10.45.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupB eq 443
+        - no access-list inside_acl permit tcp 10.48.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupB eq 443
+        - no access-list inside_acl remark Ansible AWS global East-1 groupB
         - no object-group network outside_ansible_AWSGlobalEast1_groupB
 
 
@@ -87,18 +87,18 @@ cat <<EOL >> AWS2ASAPlaybook
     asa_config:
       provider: "{{ provider }}"
       commands:
-        - access-list PE1_CORE_IN-ACL line 1 remark Ansible AWS global East-1 groupB
-        - access-list PE1_CORE_IN-ACL line 2 permit tcp 10.45.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupB eq 443
-        - access-list PE1_CORE_IN-ACL line 3 permit tcp 10.48.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupB eq 443
+        - access-list inside_acl line 1 remark Ansible AWS global East-1 groupB
+        - access-list inside_acl line 2 permit tcp 10.45.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupB eq 443
+        - access-list inside_acl line 3 permit tcp 10.48.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupB eq 443
 
 
   - name: SAVE "Write Commands"
     asa_config:
       provider: "{{ provider }}"
       commands:
-        - no access-list PE1_CORE_IN-ACL permit tcp 10.45.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupA eq 443
-        - no access-list PE1_CORE_IN-ACL permit tcp 10.48.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupA eq 443
-        - no access-list PE1_CORE_IN-ACL remark Ansible AWS global East-1 groupA
+        - no access-list inside_acl permit tcp 10.45.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupA eq 443
+        - no access-list inside_acl permit tcp 10.48.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupA eq 443
+        - no access-list inside_acl remark Ansible AWS global East-1 groupA
         - no object-group network outside_ansible_AWSGlobalEast1_groupA
 
 
@@ -127,9 +127,9 @@ cat <<EOL >> AWS2ASAPlaybook
     asa_config:
       provider: "{{ provider }}"
       commands:
-        - access-list PE1_CORE_IN-ACL line 1 remark Ansible AWS global East-1 groupA
-        - access-list PE1_CORE_IN-ACL line 2 permit tcp 10.45.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupA eq 443
-        - access-list PE1_CORE_IN-ACL line 3 permit tcp 10.48.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupA eq 443
+        - access-list inside_acl line 1 remark Ansible AWS global East-1 groupA
+        - access-list inside_acl line 2 permit tcp 10.45.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupA eq 443
+        - access-list inside_acl line 3 permit tcp 10.48.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupA eq 443
 EOL
 
 # Execute AWS2ASAPlaybook playbook - script pushes to ASA
