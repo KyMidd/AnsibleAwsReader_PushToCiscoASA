@@ -1,0 +1,435 @@
+---
+- hosts: pe1_fw
+  gather_facts: yes
+  connection: local
+
+  tasks:
+  - name: Include Login Credentials
+    include_vars: secrets.yml
+
+  - name: Define Provider
+    set_fact:
+      provider:
+        host: "{{ ansible_host }}"
+        username:  "{{ creds['username'] }}"
+        password:  "{{ creds['password'] }}"
+        authorize: yes
+        auth_pass: "{{ creds['auth_pass'] }}"
+
+  - name: SAVE "Write Commands"
+    asa_config:
+      provider: "{{ provider }}"
+      commands:
+        - no access-list inside_acl permit tcp 10.45.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupB eq 443
+        - no access-list inside_acl permit tcp 10.48.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupB eq 443
+        - no access-list inside_acl remark Ansible AWS global East-1 groupB
+        - no object-group network outside_ansible_AWSGlobalEast1_groupB
+
+
+  - name: SAVE "Write Commands"
+    asa_config:
+      provider: "{{ provider }}"
+      commands:
+        - network-object 18.208.0.0 255.248.0.0
+        - network-object 52.95.245.0 255.255.255.0
+        - network-object 54.196.0.0 255.254.0.0
+        - network-object 216.182.224.0 255.255.248.0
+        - network-object 52.119.224.0 255.255.248.0
+        - network-object 216.182.232.0 255.255.252.0
+        - network-object 13.248.103.0 255.255.255.0
+        - network-object 52.144.193.128 255.255.255.192
+        - network-object 107.20.0.0 255.252.0.0
+        - network-object 52.94.224.0 255.255.240.0
+        - network-object 99.77.128.0 255.255.255.0
+        - network-object 150.222.71.0 255.255.255.0
+        - network-object 67.202.0.0 255.255.192.0
+        - network-object 205.251.246.0 255.255.255.0
+        - network-object 199.127.232.0 255.255.252.0
+        - network-object 52.93.249.0 255.255.255.0
+        - network-object 207.171.160.0 255.255.240.0
+        - network-object 184.73.0.0 255.255.0.0
+        - network-object 52.93.60.0 255.255.255.0
+        - network-object 150.222.136.0 255.255.255.0
+        - network-object 3.80.0.0 255.240.0.0
+        - network-object 54.80.0.0 255.248.0.0
+        - network-object 3.224.0.0 255.240.0.0
+        - network-object 52.144.192.192 255.255.255.192
+        - network-object 54.221.0.0 255.255.0.0
+        - network-object 54.240.202.0 255.255.255.0
+        - network-object 54.156.0.0 255.252.0.0
+        - network-object 54.236.0.0 255.254.0.0
+        - network-object 52.93.76.0 255.255.255.0
+        - network-object 52.144.194.0 255.255.255.192
+        - network-object 54.226.0.0 255.254.0.0
+        - network-object 162.250.237.0 255.255.255.0
+        - network-object 52.90.0.0 255.254.0.0
+        - network-object 100.24.0.0 255.248.0.0
+        - network-object 52.95.216.0 255.255.252.0
+        - network-object 52.119.232.0 255.255.248.0
+        - network-object 54.231.244.0 255.255.252.0
+        - network-object 150.222.99.0 255.255.255.0
+        - network-object 205.251.244.0 255.255.254.0
+        - network-object 54.231.0.0 255.255.128.0
+        - network-object 52.144.192.0 255.255.255.192
+        - network-object 54.210.0.0 255.254.0.0
+        - network-object 150.222.76.0 255.255.255.0
+        - network-object 52.46.250.0 255.255.254.0
+        - network-object 150.222.205.0 255.255.255.0
+        - network-object 54.198.0.0 255.255.0.0
+        - network-object 52.20.0.0 255.252.0.0
+        - network-object 52.94.201.0 255.255.255.192
+        - network-object 52.200.0.0 255.248.0.0
+        - network-object 13.248.116.0 255.255.255.0
+        - network-object 52.95.48.0 255.255.252.0
+        - network-object 54.240.232.0 255.255.252.0
+        - network-object 150.222.143.0 255.255.255.0
+        - network-object 99.82.171.0 255.255.255.0
+        - network-object 54.240.228.0 255.255.254.0
+        - network-object 176.32.120.0 255.255.252.0
+        - network-object 54.160.0.0 255.248.0.0
+        - network-object 54.239.108.0 255.255.252.0
+        - network-object 52.94.192.0 255.255.252.0
+        - network-object 162.250.238.0 255.255.254.0
+        - network-object 54.239.112.0 255.255.255.0
+        - network-object 205.251.247.0 255.255.255.0
+        - network-object 35.153.0.0 255.255.0.0
+        - network-object 52.144.195.0 255.255.255.192
+        - network-object 52.46.166.0 255.255.254.0
+        - network-object 52.94.124.0 255.255.252.0
+        - network-object 52.70.0.0 255.254.0.0
+        - network-object 52.94.248.0 255.255.255.240
+        - network-object 52.119.212.0 255.255.254.0
+        - network-object 52.95.62.0 255.255.255.0
+        - network-object 99.77.254.0 255.255.255.0
+        - network-object 52.93.1.0 255.255.255.0
+        - network-object 52.54.0.0 255.254.0.0
+        - network-object 52.93.3.0 255.255.255.0
+        - network-object 54.152.0.0 255.255.0.0
+        - network-object 52.144.193.64 255.255.255.192
+        - network-object 54.239.16.0 255.255.240.0
+        - network-object 54.92.128.0 255.255.128.0
+        - network-object 54.239.0.0 255.255.255.240
+        - network-object 52.0.0.0 255.254.0.0
+        - network-object 184.72.128.0 255.255.128.0
+        - network-object 205.251.248.0 255.255.255.0
+        - network-object 54.240.216.0 255.255.252.0
+        - network-object 99.82.166.0 255.255.255.0
+        - network-object 52.93.51.29 255.255.255.255
+        - network-object 23.20.0.0 255.252.0.0
+        - network-object 52.46.168.0 255.255.254.0
+        - network-object 52.92.16.0 255.255.240.0
+        - network-object 172.96.97.0 255.255.255.0
+        - network-object 52.94.68.0 255.255.255.0
+        - network-object 18.204.0.0 255.252.0.0
+        - network-object 54.88.0.0 255.252.0.0
+        - network-object 99.78.192.0 255.255.252.0
+        - network-object 162.250.236.0 255.255.255.0
+        - network-object 52.144.200.128 255.255.255.192
+        - network-object 54.240.196.0 255.255.255.0
+        - network-object 150.222.66.0 255.255.255.0
+        - network-object 99.77.129.0 255.255.255.0
+        - network-object 52.119.196.0 255.255.252.0
+        - network-object 54.204.0.0 255.254.0.0
+        - network-object 150.222.224.0 255.255.255.0
+        - network-object 52.86.0.0 255.254.0.0
+        - network-object 52.44.0.0 255.254.0.0
+        - network-object 18.232.0.0 255.252.0.0
+        - network-object 99.82.175.0 255.255.255.0
+        - network-object 52.93.51.28 255.255.255.255
+        - network-object 150.222.2.0 255.255.255.0
+        - network-object 150.222.206.0 255.255.255.0
+        - network-object 52.95.52.0 255.255.252.0
+        - network-object 52.46.252.0 255.255.252.0
+        - network-object 54.174.0.0 255.254.0.0
+        - network-object 50.16.0.0 255.254.0.0
+        - network-object 35.168.0.0 255.248.0.0
+        - network-object 99.77.191.0 255.255.255.0
+        - network-object 99.82.188.0 255.255.252.0
+        - network-object 3.208.0.0 255.240.0.0
+        - network-object 15.221.0.0 255.255.255.0
+        - network-object 52.144.192.64 255.255.255.192
+        - network-object 150.222.237.0 255.255.255.0
+        - network-object 54.239.8.0 255.255.248.0
+        - network-object 207.171.176.0 255.255.240.0
+        - network-object 54.240.208.0 255.255.252.0
+        - network-object 52.94.240.0 255.255.252.0
+        - network-object 150.222.138.0 255.255.255.0
+        - network-object 52.95.41.0 255.255.255.0
+        - network-object 174.129.0.0 255.255.0.0
+        - network-object 72.44.32.0 255.255.224.0
+        - network-object 34.224.0.0 255.240.0.0
+        - network-object 52.94.0.0 255.255.252.0
+        - network-object 205.251.240.0 255.255.252.0
+        - network-object 52.93.4.0 255.255.255.0
+        - network-object 52.93.59.0 255.255.255.0
+        - network-object 54.224.0.0 255.254.0.0
+        - network-object 52.46.128.0 255.255.224.0
+        - network-object 75.101.128.0 255.255.128.0
+        - network-object 52.46.164.0 255.255.254.0
+        - network-object 72.21.192.0 255.255.224.0
+        - network-object 52.95.63.0 255.255.255.0
+        - network-object 52.94.252.0 255.255.254.0
+        - network-object 34.192.0.0 255.240.0.0
+        - network-object 54.208.0.0 255.254.0.0
+        - network-object 54.242.0.0 255.254.0.0
+        - network-object 216.182.238.0 255.255.254.0
+        - network-object 54.234.0.0 255.254.0.0
+        - network-object 99.82.167.0 255.255.255.0
+        - network-object 52.94.254.0 255.255.254.0
+        - network-object 52.46.170.0 255.255.254.0
+        - network-object 13.248.108.0 255.255.255.0
+        - network-object 52.95.108.0 255.255.254.0
+        - network-object 52.144.193.0 255.255.255.192
+        - network-object 150.222.79.0 255.255.255.0
+        - network-object 52.119.206.0 255.255.254.0
+        - network-object 54.144.0.0 255.252.0.0
+        - network-object 52.2.0.0 255.254.0.0
+        - network-object 176.32.96.0 255.255.248.0
+        - network-object 184.72.64.0 255.255.192.0
+        - network-object 52.94.244.0 255.255.252.0
+        - network-object 205.251.224.0 255.255.252.0
+        - network-object 54.239.104.0 255.255.254.0
+        - network-object 99.82.176.0 255.255.248.0
+        - network-object 204.236.192.0 255.255.192.0
+        - network-object 52.144.192.128 255.255.255.192
+        - network-object 52.216.0.0 255.254.0.0
+        - network-object 52.93.236.0 255.255.255.0
+        - network-object 54.239.98.0 255.255.255.0
+        - network-object 15.193.6.0 255.255.255.0
+        - network-object 99.82.165.0 255.255.255.0
+        - network-object 150.222.100.0 255.255.255.0
+        - network-object 52.144.200.64 255.255.255.192
+        - network-object 52.4.0.0 255.252.0.0
+        - network-object 52.119.214.0 255.255.254.0
+        - network-object 208.86.88.0 255.255.254.0
+        - network-object 44.192.0.0 255.224.0.0
+        - network-object 52.72.0.0 255.254.0.0
+        - network-object 52.93.97.0 255.255.255.0
+        - network-object 52.95.255.80 255.255.255.240
+        - network-object 150.222.87.0 255.255.255.0
+        - network-object 50.19.0.0 255.255.0.0
+        - network-object 150.222.73.0 255.255.255.0
+        - network-object 54.172.0.0 255.254.0.0
+        - network-object 3.227.250.128 255.255.255.128
+        - network-object 3.83.168.0 255.255.252.0
+        - network-object 3.91.171.128 255.255.255.128
+        - description last updated at 11-21-2019 16:54:01
+      parents: ['object-group network outside_ansible_AWSGlobalEast1_groupB']
+
+
+  - name: SAVE "Write Commands"
+    asa_config:
+      provider: "{{ provider }}"
+      commands:
+        - access-list inside_acl line 1 remark Ansible AWS global East-1 groupB
+        - access-list inside_acl line 2 permit tcp 10.45.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupB eq 443
+        - access-list inside_acl line 3 permit tcp 10.48.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupB eq 443
+
+
+  - name: SAVE "Write Commands"
+    asa_config:
+      provider: "{{ provider }}"
+      commands:
+        - no access-list inside_acl permit tcp 10.45.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupA eq 443
+        - no access-list inside_acl permit tcp 10.48.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupA eq 443
+        - no access-list inside_acl remark Ansible AWS global East-1 groupA
+        - no object-group network outside_ansible_AWSGlobalEast1_groupA
+
+
+  - name: SAVE "Write Commands"
+    asa_config:
+      provider: "{{ provider }}"
+      commands:
+        - network-object 18.208.0.0 255.248.0.0
+        - network-object 52.95.245.0 255.255.255.0
+        - network-object 54.196.0.0 255.254.0.0
+        - network-object 216.182.224.0 255.255.248.0
+        - network-object 52.119.224.0 255.255.248.0
+        - network-object 216.182.232.0 255.255.252.0
+        - network-object 13.248.103.0 255.255.255.0
+        - network-object 52.144.193.128 255.255.255.192
+        - network-object 107.20.0.0 255.252.0.0
+        - network-object 52.94.224.0 255.255.240.0
+        - network-object 99.77.128.0 255.255.255.0
+        - network-object 150.222.71.0 255.255.255.0
+        - network-object 67.202.0.0 255.255.192.0
+        - network-object 205.251.246.0 255.255.255.0
+        - network-object 199.127.232.0 255.255.252.0
+        - network-object 52.93.249.0 255.255.255.0
+        - network-object 207.171.160.0 255.255.240.0
+        - network-object 184.73.0.0 255.255.0.0
+        - network-object 52.93.60.0 255.255.255.0
+        - network-object 150.222.136.0 255.255.255.0
+        - network-object 3.80.0.0 255.240.0.0
+        - network-object 54.80.0.0 255.248.0.0
+        - network-object 3.224.0.0 255.240.0.0
+        - network-object 52.144.192.192 255.255.255.192
+        - network-object 54.221.0.0 255.255.0.0
+        - network-object 54.240.202.0 255.255.255.0
+        - network-object 54.156.0.0 255.252.0.0
+        - network-object 54.236.0.0 255.254.0.0
+        - network-object 52.93.76.0 255.255.255.0
+        - network-object 52.144.194.0 255.255.255.192
+        - network-object 54.226.0.0 255.254.0.0
+        - network-object 162.250.237.0 255.255.255.0
+        - network-object 52.90.0.0 255.254.0.0
+        - network-object 100.24.0.0 255.248.0.0
+        - network-object 52.95.216.0 255.255.252.0
+        - network-object 52.119.232.0 255.255.248.0
+        - network-object 54.231.244.0 255.255.252.0
+        - network-object 150.222.99.0 255.255.255.0
+        - network-object 205.251.244.0 255.255.254.0
+        - network-object 54.231.0.0 255.255.128.0
+        - network-object 52.144.192.0 255.255.255.192
+        - network-object 54.210.0.0 255.254.0.0
+        - network-object 150.222.76.0 255.255.255.0
+        - network-object 52.46.250.0 255.255.254.0
+        - network-object 150.222.205.0 255.255.255.0
+        - network-object 54.198.0.0 255.255.0.0
+        - network-object 52.20.0.0 255.252.0.0
+        - network-object 52.94.201.0 255.255.255.192
+        - network-object 52.200.0.0 255.248.0.0
+        - network-object 13.248.116.0 255.255.255.0
+        - network-object 52.95.48.0 255.255.252.0
+        - network-object 54.240.232.0 255.255.252.0
+        - network-object 150.222.143.0 255.255.255.0
+        - network-object 99.82.171.0 255.255.255.0
+        - network-object 54.240.228.0 255.255.254.0
+        - network-object 176.32.120.0 255.255.252.0
+        - network-object 54.160.0.0 255.248.0.0
+        - network-object 54.239.108.0 255.255.252.0
+        - network-object 52.94.192.0 255.255.252.0
+        - network-object 162.250.238.0 255.255.254.0
+        - network-object 54.239.112.0 255.255.255.0
+        - network-object 205.251.247.0 255.255.255.0
+        - network-object 35.153.0.0 255.255.0.0
+        - network-object 52.144.195.0 255.255.255.192
+        - network-object 52.46.166.0 255.255.254.0
+        - network-object 52.94.124.0 255.255.252.0
+        - network-object 52.70.0.0 255.254.0.0
+        - network-object 52.94.248.0 255.255.255.240
+        - network-object 52.119.212.0 255.255.254.0
+        - network-object 52.95.62.0 255.255.255.0
+        - network-object 99.77.254.0 255.255.255.0
+        - network-object 52.93.1.0 255.255.255.0
+        - network-object 52.54.0.0 255.254.0.0
+        - network-object 52.93.3.0 255.255.255.0
+        - network-object 54.152.0.0 255.255.0.0
+        - network-object 52.144.193.64 255.255.255.192
+        - network-object 54.239.16.0 255.255.240.0
+        - network-object 54.92.128.0 255.255.128.0
+        - network-object 54.239.0.0 255.255.255.240
+        - network-object 52.0.0.0 255.254.0.0
+        - network-object 184.72.128.0 255.255.128.0
+        - network-object 205.251.248.0 255.255.255.0
+        - network-object 54.240.216.0 255.255.252.0
+        - network-object 99.82.166.0 255.255.255.0
+        - network-object 52.93.51.29 255.255.255.255
+        - network-object 23.20.0.0 255.252.0.0
+        - network-object 52.46.168.0 255.255.254.0
+        - network-object 52.92.16.0 255.255.240.0
+        - network-object 172.96.97.0 255.255.255.0
+        - network-object 52.94.68.0 255.255.255.0
+        - network-object 18.204.0.0 255.252.0.0
+        - network-object 54.88.0.0 255.252.0.0
+        - network-object 99.78.192.0 255.255.252.0
+        - network-object 162.250.236.0 255.255.255.0
+        - network-object 52.144.200.128 255.255.255.192
+        - network-object 54.240.196.0 255.255.255.0
+        - network-object 150.222.66.0 255.255.255.0
+        - network-object 99.77.129.0 255.255.255.0
+        - network-object 52.119.196.0 255.255.252.0
+        - network-object 54.204.0.0 255.254.0.0
+        - network-object 150.222.224.0 255.255.255.0
+        - network-object 52.86.0.0 255.254.0.0
+        - network-object 52.44.0.0 255.254.0.0
+        - network-object 18.232.0.0 255.252.0.0
+        - network-object 99.82.175.0 255.255.255.0
+        - network-object 52.93.51.28 255.255.255.255
+        - network-object 150.222.2.0 255.255.255.0
+        - network-object 150.222.206.0 255.255.255.0
+        - network-object 52.95.52.0 255.255.252.0
+        - network-object 52.46.252.0 255.255.252.0
+        - network-object 54.174.0.0 255.254.0.0
+        - network-object 50.16.0.0 255.254.0.0
+        - network-object 35.168.0.0 255.248.0.0
+        - network-object 99.77.191.0 255.255.255.0
+        - network-object 99.82.188.0 255.255.252.0
+        - network-object 3.208.0.0 255.240.0.0
+        - network-object 15.221.0.0 255.255.255.0
+        - network-object 52.144.192.64 255.255.255.192
+        - network-object 150.222.237.0 255.255.255.0
+        - network-object 54.239.8.0 255.255.248.0
+        - network-object 207.171.176.0 255.255.240.0
+        - network-object 54.240.208.0 255.255.252.0
+        - network-object 52.94.240.0 255.255.252.0
+        - network-object 150.222.138.0 255.255.255.0
+        - network-object 52.95.41.0 255.255.255.0
+        - network-object 174.129.0.0 255.255.0.0
+        - network-object 72.44.32.0 255.255.224.0
+        - network-object 34.224.0.0 255.240.0.0
+        - network-object 52.94.0.0 255.255.252.0
+        - network-object 205.251.240.0 255.255.252.0
+        - network-object 52.93.4.0 255.255.255.0
+        - network-object 52.93.59.0 255.255.255.0
+        - network-object 54.224.0.0 255.254.0.0
+        - network-object 52.46.128.0 255.255.224.0
+        - network-object 75.101.128.0 255.255.128.0
+        - network-object 52.46.164.0 255.255.254.0
+        - network-object 72.21.192.0 255.255.224.0
+        - network-object 52.95.63.0 255.255.255.0
+        - network-object 52.94.252.0 255.255.254.0
+        - network-object 34.192.0.0 255.240.0.0
+        - network-object 54.208.0.0 255.254.0.0
+        - network-object 54.242.0.0 255.254.0.0
+        - network-object 216.182.238.0 255.255.254.0
+        - network-object 54.234.0.0 255.254.0.0
+        - network-object 99.82.167.0 255.255.255.0
+        - network-object 52.94.254.0 255.255.254.0
+        - network-object 52.46.170.0 255.255.254.0
+        - network-object 13.248.108.0 255.255.255.0
+        - network-object 52.95.108.0 255.255.254.0
+        - network-object 52.144.193.0 255.255.255.192
+        - network-object 150.222.79.0 255.255.255.0
+        - network-object 52.119.206.0 255.255.254.0
+        - network-object 54.144.0.0 255.252.0.0
+        - network-object 52.2.0.0 255.254.0.0
+        - network-object 176.32.96.0 255.255.248.0
+        - network-object 184.72.64.0 255.255.192.0
+        - network-object 52.94.244.0 255.255.252.0
+        - network-object 205.251.224.0 255.255.252.0
+        - network-object 54.239.104.0 255.255.254.0
+        - network-object 99.82.176.0 255.255.248.0
+        - network-object 204.236.192.0 255.255.192.0
+        - network-object 52.144.192.128 255.255.255.192
+        - network-object 52.216.0.0 255.254.0.0
+        - network-object 52.93.236.0 255.255.255.0
+        - network-object 54.239.98.0 255.255.255.0
+        - network-object 15.193.6.0 255.255.255.0
+        - network-object 99.82.165.0 255.255.255.0
+        - network-object 150.222.100.0 255.255.255.0
+        - network-object 52.144.200.64 255.255.255.192
+        - network-object 52.4.0.0 255.252.0.0
+        - network-object 52.119.214.0 255.255.254.0
+        - network-object 208.86.88.0 255.255.254.0
+        - network-object 44.192.0.0 255.224.0.0
+        - network-object 52.72.0.0 255.254.0.0
+        - network-object 52.93.97.0 255.255.255.0
+        - network-object 52.95.255.80 255.255.255.240
+        - network-object 150.222.87.0 255.255.255.0
+        - network-object 50.19.0.0 255.255.0.0
+        - network-object 150.222.73.0 255.255.255.0
+        - network-object 54.172.0.0 255.254.0.0
+        - network-object 3.227.250.128 255.255.255.128
+        - network-object 3.83.168.0 255.255.252.0
+        - network-object 3.91.171.128 255.255.255.128
+        - description last updated at 11-21-2019 16:54:01
+      parents: ['object-group network outside_ansible_AWSGlobalEast1_groupA']
+
+  - name: SAVE "Write Commands"
+    asa_config:
+      provider: "{{ provider }}"
+      commands:
+        - access-list inside_acl line 1 remark Ansible AWS global East-1 groupA
+        - access-list inside_acl line 2 permit tcp 10.45.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupA eq 443
+        - access-list inside_acl line 3 permit tcp 10.48.0.0 255.255.0.0 object-group outside_ansible_AWSGlobalEast1_groupA eq 443
